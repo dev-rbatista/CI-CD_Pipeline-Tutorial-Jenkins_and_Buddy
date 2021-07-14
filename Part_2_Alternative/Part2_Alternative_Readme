@@ -1,0 +1,137 @@
+# Class Assignment 5 Part 2 - Continuous Integration and Delivery
+
+# Alternative Implementation
+
+# Buddy
+
+Hello there! In this part of the CA5, we're going to analyze and try to implement a Jenkins alternative.
+
+The selected alternative is Buddy.
+
+Why Buddy? Well, first of all it seems a really simple and easy tool to use. There's one thing I don't like much, which is the barbarity of working with a GUI.
+
+Just kidding. It's a small price to pay.
+
+Another reason is the Docker support. Buddy allows builds of custom images! This is one of the steps required for the CA5-Part2.
+So, having this type of support is also a big plus.
+
+Support for Maven and Gradle is also included and there is the possibility of using a free account (Just like Jenkins), which is another positive aspect.
+
+Buddy also allows for the Actions defined in the GUI to be converted to code recurring to Yaml files.
+
+One other positive is that Buddy runs in the browser. This means we don't need to download and install another software to execute our builds and run our pipelines.
+
+If we're feeling adventurous we can even use the yaml only, to configure the Pipeline (I think we've suffered enough with Jenkins...).
+
+One thing that could possibly be a problem is that Buddy performs on top of predefined actions.
+Even though I didn't find any worrying information about that, it can possibly be a limitation regarding very detailed and specific actions we could possibly want to implement, and aren't included in the predefined selections.
+
+
+# 1. Create account and install Buddy
+
+Go to the Buddy website (https://buddy.works/) and create an account.
+
+When creating account there is an immediate possibility to synchronize the Bitbucket repository with the Buddy account.
+
+![img.png](img.png)
+
+# 2. Create a Pipeline
+
+**2.1** Select Pipelines from the Navbar.
+
+![img_1.png](img_1.png)
+
+**2.2** Add a new Pipeline
+
+![img_2.png](img_2.png)
+
+![img_3.png](img_3.png)
+
+**2.3** As we already synchronized the repository we'll not need to execute a checkout step.
+So, let's create an action to assemble:
+
+![img_4.png](img_4.png)
+
+If you type gradle in the filter it already appears the gradle option.
+
+We can utilize a gradle "standard" version, or we can utilize our own gradle wrapper since we're already using our repository.
+
+![img_5.png](img_5.png)
+
+We've created a bash command to execute gradle assemble! Let's test it by selecting run:
+
+![img_6.png](img_6.png)
+
+Here it is (After some minor corrections to a wrong path and give permission to execute the gradlew):
+![img_8.png](img_8.png)
+![img_7.png](img_7.png)
+
+**2.4** Create new Actions regarding the required stages of the Pipeline:
+
+**Test:**
+
+![img_9.png](img_9.png)
+
+**Generate Javadoc:**
+
+![img_10.png](img_10.png)
+
+Once again, there was a mistake.
+
+There is a need to define the path in each step! Corrected it and :
+
+![img_11.png](img_11.png)
+
+It's working!
+
+After some search I didn't manage to find the publishHTML sort of action just like we previously did with Jenkins.
+
+So, for the sake of our mental health, we'll be skipping that small step inside the Javadoc action.
+
+**Archive**
+
+The selected action is the "Zip" that appears in the filter:
+
+![img_12.png](img_12.png)
+
+![img_13.png](img_13.png)
+
+It seems really easy to set up. You can browse the path and it is way easier that using a command line to navigate and spam "ls -l" / "cd something something" /"ls -l"
+
+After adding the archive action, everything is working:
+
+![img_14.png](img_14.png)
+
+**Docker Image and Push to Docker Hub**
+
+Creating the Docker image is really easy:
+
+![img_15.png](img_15.png)
+
+Once again, the path is really easy and the fact that we already had the previous Dockerfile from Part2, is a huge
+no-brainer.
+
+Another step, and success again:
+
+![img_16.png](img_16.png)
+
+Now, the final step, push the image to Docker Hub:
+
+![img_17.png](img_17.png)
+
+Once again, the setup seems really easy! (I've selected the integration with Docker Hub in order to simplify the process)
+
+There it is:
+
+![img_18.png](img_18.png)
+
+Huge success!
+
+In summary, Buddy is REALLY easy to use. I'm really amazed at how simple it made the utilization
+of a Pipeline! I'm very impressed with this tool!
+
+### Well friends, it has been a pleasure to produce this tutorials, but our time has come! Just kidding, I've yet to complete my part of the group assignment!
+### See you soon!
+
+
+

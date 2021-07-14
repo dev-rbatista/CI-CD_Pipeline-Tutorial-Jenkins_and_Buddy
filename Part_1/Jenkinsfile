@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out...'
+                git 'https://bitbucket.org/Batista_Ricardo/devops-20-21/src/master/ca5/Part_1/'
+            }
+        }
+        stage('Assemble') {
+            steps {
+                echo 'Assembling...'
+                dir('ca5/Part_1/') {
+                    sh './gradlew clean assemble'
+                }
+            }
+        }
+
+        stage('Tests') {
+            steps {
+                echo 'Testing...'
+                dir('ca5/Part_1/') {
+                    sh './gradlew test'
+                    junit '**/TEST-basic_demo.AppTest.xml'
+                }
+            }
+        }
+        stage('Archiving') {
+            steps {
+                echo 'Archiving...'
+                archiveArtifacts 'ca5/Part_1/build/distributions/*'
+            }
+        }
+    }
+}
